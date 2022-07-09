@@ -1,3 +1,6 @@
+from queue import Queue, LifoQueue, PriorityQueue
+
+
 class Nodo:
     """
     Implemente a classe Nodo com os atributos descritos na funcao init
@@ -88,7 +91,7 @@ def expande(nodo: Nodo) -> list:
     return conjunto_nodos
 
 
-def bfs(estado):
+def bfs(estado: str):
     """
     Recebe um estado (string), executa a busca em LARGURA e
     retorna uma lista de ações que leva do
@@ -138,3 +141,18 @@ def astar_manhattan(estado):
     """
     # substituir a linha abaixo pelo seu codigo
     raise NotImplementedError
+
+
+def check_initial_state(estado: str) -> bool:
+    valid_chars = "12345678_"
+    if (len(estado) == len(valid_chars)) and (all(char in estado for char in valid_chars)):
+        return True
+    else:
+        return False
+
+
+def check_final_state(estado: str) -> bool:
+    if estado == "12345678_":
+        return True
+    else:
+        return False
