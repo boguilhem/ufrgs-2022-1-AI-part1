@@ -1,6 +1,3 @@
-from shutil import move
-
-
 class Nodo:
     """
     Implemente a classe Nodo com os atributos descritos na funcao init
@@ -75,15 +72,20 @@ def sucessor(estado: str) -> list:
     return lista_sucessores
 
 
-def expande(nodo):
+def expande(nodo: Nodo) -> list:
     """
     Recebe um nodo (objeto da classe Nodo) e retorna um iterable de nodos.
     Cada nodo do iterable é contém um estado sucessor do nó recebido.
     :param nodo: objeto da classe Nodo
     :return:
     """
-    # substituir a linha abaixo pelo seu codigo
-    raise NotImplementedError
+    conjunto_nodos = set()
+    lista_sucessores = sucessor(nodo.estado)
+
+    for element in lista_sucessores:
+        conjunto_nodos.add(Nodo(element[1], nodo, element[0], nodo.custo + 1))
+
+    return conjunto_nodos
 
 
 def bfs(estado):
