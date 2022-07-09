@@ -143,8 +143,28 @@ def dfs(estado):
     :param estado: str
     :return:
     """
-    # substituir a linha abaixo pelo seu codigo
-    raise NotImplementedError
+    # Se o estado inicial não for válido, ou se o estado inicial não houver solução:
+    if (not check_initial_state(estado)) or (not check_solvable(estado)):
+        return None
+
+    if check_final_state(estado):
+        return list()
+
+    nodo_inicial = Nodo(estado, None, None, 0)
+    explorados = set()
+    fronteira = LifoQueue()
+    fronteira.put(nodo_inicial)
+
+    while fronteira:
+        node_temp = fronteira.get()
+        if check_final_state(node_temp.estado):
+            return find_path(node_temp)
+        if node_temp.estado not in explorados:
+            explorados.add(node_temp.estado)
+            candidatos = expande(node_temp)
+            for node in candidatos:
+                fronteira.put(node)
+    return None
 
 
 def astar_hamming(estado):
