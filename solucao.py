@@ -2,7 +2,8 @@ class Nodo:
     """
     Implemente a classe Nodo com os atributos descritos na funcao init
     """
-    def __init__(self, estado, pai, acao, custo):
+
+    def __init__(self, estado: str, pai: object, acao: str, custo: int):
         """
         Inicializa o nodo com os atributos recebidos
         :param estado:str, representacao do estado do 8-puzzle
@@ -11,10 +12,13 @@ class Nodo:
         :param custo:int, custo do caminho da raiz até este nó
         """
         # substitua a linha abaixo pelo seu codigo
-        raise NotImplementedError
+        self.estado = estado
+        self.pai = pai
+        self.acao = acao
+        self.custo = custo
 
 
-def sucessor(estado):
+def sucessor(estado: str) -> list:
     """
     Recebe um estado (string) e retorna uma lista de tuplas (ação,estado atingido)
     para cada ação possível no estado recebido.
@@ -23,7 +27,38 @@ def sucessor(estado):
     :return:
     """
     # substituir a linha abaixo pelo seu codigo
-    raise NotImplementedError
+    ACOES = ["acima", "direita", "abaixo", "esquerda"]
+    VAZIO = "_"
+
+    TOP_ROW = [0, 1, 2]
+    RIGHT_COLUMN = [2, 5, 8]
+    BOTTOM_ROW = [6, 7, 8]
+    LEFT_COLUMN = [0, 3, 6]
+
+    posicao_vazio = estado.find(VAZIO)
+
+    # Se VAZIO não está na linha de cima
+    if posicao_vazio not in TOP_ROW:
+        # pode mover pra cima
+        print("NOT IN TOP ROW")
+
+    # Se não está na coluna da direita
+    if posicao_vazio not in RIGHT_COLUMN:
+        # pode mover pra direita
+        print("NOT IN RIGHT COLUMN")
+
+    # Se não está na linha de baixo
+    if posicao_vazio not in BOTTOM_ROW:
+        # pode mover pra baixo
+        print("NOT IN BOTTOM ROW")
+
+    # Se não está na coluna da esquerda
+    if posicao_vazio not in LEFT_COLUMN:
+        # pode mover pra esquerda
+        print("NOT IN LEFT COLUMN")
+
+    lista_sucessores = []
+    return posicao_vazio
 
 
 def expande(nodo):
