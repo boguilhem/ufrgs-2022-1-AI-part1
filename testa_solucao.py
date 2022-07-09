@@ -13,8 +13,8 @@ class TestaSolucao(unittest.TestCase):
         succ_esperados = {("abaixo", "2435_1687"), ("esquerda", "_23541687"), ("direita", "23_541687")}
 
         sucessores = solucao.sucessor("2_3541687")  # obtem os sucessores chamando a funcao implementada
-        self.assertEqual(3, len(sucessores))     # verifica se foram retornados 3 sucessores
-        for s in sucessores:                     # verifica se os sucessores retornados estao entre os esperados
+        self.assertEqual(3, len(sucessores))  # verifica se foram retornados 3 sucessores
+        for s in sucessores:  # verifica se os sucessores retornados estao entre os esperados
             self.assertIn(s, succ_esperados)
 
     def test_expande(self):
@@ -42,8 +42,10 @@ class TestaSolucao(unittest.TestCase):
         """
         # no estado 2_3541687, a solucao otima tem 23 movimentos.
         self.assertEqual(23, len(solucao.bfs("2_3541687")))
-        print("Atencao! O BFS passar nesse teste apenas significa que a lista retornada tem o "
-              "numero correto de elementos. Nao verificamos se as acoes levam para a solucao!")
+        print(
+            "Atencao! O BFS passar nesse teste apenas significa que a lista retornada tem o "
+            "numero correto de elementos. Nao verificamos se as acoes levam para a solucao!"
+        )
 
         # nao ha solucao a partir do estado 185423_67
         self.assertIsNone(solucao.bfs("185423_67"))
@@ -55,8 +57,10 @@ class TestaSolucao(unittest.TestCase):
         """
         # no estado 2_3541687, a solucao otima tem 23 movimentos.
         self.assertEqual(23, len(solucao.astar_hamming("2_3541687")))
-        print("Atencao! O A* Hamming passar nesse teste apenas significa que a lista retornada tem o "
-              "numero correto de elementos. Nao verificamos se as acoes levam para a solucao!")
+        print(
+            "Atencao! O A* Hamming passar nesse teste apenas significa que a lista retornada tem o "
+            "numero correto de elementos. Nao verificamos se as acoes levam para a solucao!"
+        )
 
         # nao ha solucao a partir do estado 185423_67
         self.assertIsNone(solucao.astar_hamming("185423_67"))
@@ -68,8 +72,10 @@ class TestaSolucao(unittest.TestCase):
         """
         # no estado 2_3541687, a solucao otima tem 23 movimentos.
         self.assertEqual(23, len(solucao.astar_manhattan("2_3541687")))
-        print("Atencao! O A* Manhattan passar nesse teste apenas significa que a lista retornada tem o "
-              "numero correto de elementos. Nao verificamos se as acoes levam para a solucao!")
+        print(
+            "Atencao! O A* Manhattan passar nesse teste apenas significa que a lista retornada tem o "
+            "numero correto de elementos. Nao verificamos se as acoes levam para a solucao!"
+        )
 
         # nao ha solucao a partir do estado 185423_67
         self.assertIsNone(solucao.astar_manhattan("185423_67"))
@@ -83,16 +89,17 @@ class TestaSolucao(unittest.TestCase):
         """
         # nao ha solucao a partir do estado 185423_67
         self.assertEqual(None, solucao.dfs("185423_67"))
-    
+
     def test_action_order(self):
         """
         Testa se BFS e A* retornam a sequencia de acoes na ordem correta
         """
         estado = "1235_6478"
-        solucao_otima = ['esquerda', 'abaixo', 'direita', 'direita']
+        solucao_otima = ["esquerda", "abaixo", "direita", "direita"]
         self.assertEqual(solucao_otima, solucao.bfs(estado))
         self.assertEqual(solucao_otima, solucao.astar_hamming(estado))
         self.assertEqual(solucao_otima, solucao.astar_manhattan(estado))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
