@@ -1,6 +1,3 @@
-from shutil import move
-
-
 class Nodo:
     """
     Implemente a classe Nodo com os atributos descritos na funcao init
