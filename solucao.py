@@ -1,3 +1,6 @@
+from shutil import move
+
+
 class Nodo:
     """
     Implemente a classe Nodo com os atributos descritos na funcao init
@@ -26,7 +29,18 @@ def sucessor(estado: str) -> list:
     :param estado:
     :return:
     """
-    # substituir a linha abaixo pelo seu codigo
+
+    def move_vazio(estado_atual: str, pos_vazio: int, nova_pos: int) -> str:
+        """
+        Recebe o estado atual (string), a posição do caractere vazio (int) e a nova posição do caractere vazio (int), retornando o novo estado possível de ser atingível (string)
+        """
+        lista_estado = list(estado_atual)
+        lista_estado[pos_vazio], lista_estado[nova_pos] = (
+            lista_estado[nova_pos],
+            lista_estado[pos_vazio],
+        )
+        return "".join(lista_estado)
+
     ACOES = ["acima", "direita", "abaixo", "esquerda"]
     VAZIO = "_"
 
@@ -36,29 +50,29 @@ def sucessor(estado: str) -> list:
     LEFT_COLUMN = [0, 3, 6]
 
     posicao_vazio = estado.find(VAZIO)
+    lista_sucessores = []
 
     # Se VAZIO não está na linha de cima
     if posicao_vazio not in TOP_ROW:
         # pode mover pra cima
-        print("NOT IN TOP ROW")
+        lista_sucessores.append((ACOES[0], move_vazio(estado, posicao_vazio, posicao_vazio - 3)))
 
     # Se não está na coluna da direita
     if posicao_vazio not in RIGHT_COLUMN:
         # pode mover pra direita
-        print("NOT IN RIGHT COLUMN")
+        lista_sucessores.append((ACOES[1], move_vazio(estado, posicao_vazio, posicao_vazio + 1)))
 
     # Se não está na linha de baixo
     if posicao_vazio not in BOTTOM_ROW:
         # pode mover pra baixo
-        print("NOT IN BOTTOM ROW")
+        lista_sucessores.append((ACOES[2], move_vazio(estado, posicao_vazio, posicao_vazio + 3)))
 
     # Se não está na coluna da esquerda
     if posicao_vazio not in LEFT_COLUMN:
         # pode mover pra esquerda
-        print("NOT IN LEFT COLUMN")
+        lista_sucessores.append((ACOES[3], move_vazio(estado, posicao_vazio, posicao_vazio - 1)))
 
-    lista_sucessores = []
-    return posicao_vazio
+    return lista_sucessores
 
 
 def expande(nodo):
