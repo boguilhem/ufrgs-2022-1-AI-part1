@@ -91,6 +91,14 @@ def expande(nodo: Nodo) -> list:
     return conjunto_nodos
 
 
+def find_path(cur_node: Nodo) -> list:
+    caminho = list()
+    while cur_node.pai != None:
+        caminho.insert(0, cur_node.acao)
+        cur_node = cur_node.pai
+    return caminho
+
+
 def bfs(estado: str):
     """
     Recebe um estado (string), executa a busca em LARGURA e
@@ -100,8 +108,30 @@ def bfs(estado: str):
     :param estado: str
     :return:
     """
-    # substituir a linha abaixo pelo seu codigo
-    raise NotImplementedError
+
+    # Se o estado inicial não for válido, ou se o estado inicial não houver solução:
+    if (not check_initial_state(estado)) or (not check_solvable(estado)):
+        return None
+
+    # Se já for o estado final, não tem o que fazer
+    if check_final_state(estado):
+        return list()
+
+    nodo_inicial = Nodo(estado, None, None, 0)
+    explorados = set()
+    fronteira = Queue()
+    fronteira.put(nodo_inicial)
+
+    while fronteira:
+        node_temp = fronteira.get()
+        if check_final_state(node_temp.estado):
+            return find_path(node_temp)
+        if node_temp.estado not in explorados:
+            explorados.add(node_temp.estado)
+            candidatos = expande(node_temp)
+            for node in candidatos:
+                fronteira.put(node)
+    return None
 
 
 def dfs(estado):
@@ -153,6 +183,20 @@ def check_initial_state(estado: str) -> bool:
 
 def check_final_state(estado: str) -> bool:
     if estado == "12345678_":
+        return True
+    else:
+        return False
+
+
+def check_solvable(estado: str) -> bool:
+    VAZIO = "_"
+    lista_estados = list(estado)
+    count_inversoes = 0
+    for i in range(0, 9):
+        for j in range(i + 1, 9):
+            if lista_estados[j] != VAZIO and lista_estados[i] != VAZIO and lista_estados[i] > lista_estados[j]:
+                count_inversoes += 1
+    if count_inversoes % 2 == 0:
         return True
     else:
         return False

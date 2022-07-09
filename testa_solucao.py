@@ -35,64 +35,70 @@ class TestaSolucao(unittest.TestCase):
             # verifica se a tupla com os atributos do nodo esta' presente no conjunto com os nodos esperados
             self.assertIn((nodo.estado, nodo.pai, nodo.acao, nodo.custo), resposta_esperada)
 
-    # def test_bfs(self):
-    #     """
-    #     Testa o BFS em um estado com solução e outro sem solução
-    #     :return:
-    #     """
-    #     # no estado 2_3541687, a solucao otima tem 23 movimentos.
-    #     self.assertEqual(23, len(solucao.bfs("2_3541687")))
-    #     print("Atencao! O BFS passar nesse teste apenas significa que a lista retornada tem o "
-    #           "numero correto de elementos. Nao verificamos se as acoes levam para a solucao!")
+    def test_bfs(self):
+        """
+        Testa o BFS em um estado com solução e outro sem solução
+        :return:
+        """
+        # no estado 2_3541687, a solucao otima tem 23 movimentos.
+        self.assertEqual(23, len(solucao.bfs("2_3541687")))
+        print(
+            "Atencao! O BFS passar nesse teste apenas significa que a lista retornada tem o "
+            "numero correto de elementos. Nao verificamos se as acoes levam para a solucao!"
+        )
 
-    #     # nao ha solucao a partir do estado 185423_67
-    #     self.assertIsNone(solucao.bfs("185423_67"))
+        # nao ha solucao a partir do estado 185423_67
+        self.assertIsNone(solucao.bfs("185423_67"))
 
-    # def test_astar_hamming(self):
-    #     """
-    #     Testa o A* com dist. Hamming em um estado com solução e outro sem solução
-    #     :return:
-    #     """
-    #     # no estado 2_3541687, a solucao otima tem 23 movimentos.
-    #     self.assertEqual(23, len(solucao.astar_hamming("2_3541687")))
-    #     print("Atencao! O A* Hamming passar nesse teste apenas significa que a lista retornada tem o "
-    #           "numero correto de elementos. Nao verificamos se as acoes levam para a solucao!")
+    def test_astar_hamming(self):
+        """
+        Testa o A* com dist. Hamming em um estado com solução e outro sem solução
+        :return:
+        """
+        # no estado 2_3541687, a solucao otima tem 23 movimentos.
+        self.assertEqual(23, len(solucao.astar_hamming("2_3541687")))
+        print(
+            "Atencao! O A* Hamming passar nesse teste apenas significa que a lista retornada tem o "
+            "numero correto de elementos. Nao verificamos se as acoes levam para a solucao!"
+        )
 
-    #     # nao ha solucao a partir do estado 185423_67
-    #     self.assertIsNone(solucao.astar_hamming("185423_67"))
+        # nao ha solucao a partir do estado 185423_67
+        self.assertIsNone(solucao.astar_hamming("185423_67"))
 
-    # def test_astar_manhattan(self):
-    #     """
-    #     Testa o A* com dist. Manhattan em um estado com solução e outro sem solução
-    #     :return:
-    #     """
-    #     # no estado 2_3541687, a solucao otima tem 23 movimentos.
-    #     self.assertEqual(23, len(solucao.astar_manhattan("2_3541687")))
-    #     print("Atencao! O A* Manhattan passar nesse teste apenas significa que a lista retornada tem o "
-    #           "numero correto de elementos. Nao verificamos se as acoes levam para a solucao!")
+    def test_astar_manhattan(self):
+        """
+        Testa o A* com dist. Manhattan em um estado com solução e outro sem solução
+        :return:
+        """
+        # no estado 2_3541687, a solucao otima tem 23 movimentos.
+        self.assertEqual(23, len(solucao.astar_manhattan("2_3541687")))
+        print(
+            "Atencao! O A* Manhattan passar nesse teste apenas significa que a lista retornada tem o "
+            "numero correto de elementos. Nao verificamos se as acoes levam para a solucao!"
+        )
 
-    #     # nao ha solucao a partir do estado 185423_67
-    #     self.assertIsNone(solucao.astar_manhattan("185423_67"))
+        # nao ha solucao a partir do estado 185423_67
+        self.assertIsNone(solucao.astar_manhattan("185423_67"))
 
-    # def test_dfs(self):
-    #     """
-    #     Testa o DFS apenas em um estado sem solucao pq ele nao e' obrigado
-    #     a retornar o caminho minimo
-    #     :param estado: str
-    #     :return:
-    #     """
-    #     # nao ha solucao a partir do estado 185423_67
-    #     self.assertEqual(None, solucao.dfs("185423_67"))
+    def test_dfs(self):
+        """
+        Testa o DFS apenas em um estado sem solucao pq ele nao e' obrigado
+        a retornar o caminho minimo
+        :param estado: str
+        :return:
+        """
+        # nao ha solucao a partir do estado 185423_67
+        self.assertEqual(None, solucao.dfs("185423_67"))
 
-    # def test_action_order(self):
-    #     """
-    #     Testa se BFS e A* retornam a sequencia de acoes na ordem correta
-    #     """
-    #     estado = "1235_6478"
-    #     solucao_otima = ['esquerda', 'abaixo', 'direita', 'direita']
-    #     self.assertEqual(solucao_otima, solucao.bfs(estado))
-    #     self.assertEqual(solucao_otima, solucao.astar_hamming(estado))
-    #     self.assertEqual(solucao_otima, solucao.astar_manhattan(estado))
+    def test_action_order(self):
+        """
+        Testa se BFS e A* retornam a sequencia de acoes na ordem correta
+        """
+        estado = "1235_6478"
+        solucao_otima = ["esquerda", "abaixo", "direita", "direita"]
+        self.assertEqual(solucao_otima, solucao.bfs(estado))
+        self.assertEqual(solucao_otima, solucao.astar_hamming(estado))
+        self.assertEqual(solucao_otima, solucao.astar_manhattan(estado))
 
 
 if __name__ == "__main__":
