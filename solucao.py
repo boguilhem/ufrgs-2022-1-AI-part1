@@ -1,7 +1,6 @@
 from queue import Queue, LifoQueue, PriorityQueue
 from itertools import count
 from typing import Callable, Optional
-import time
 
 
 class Nodo:
@@ -169,6 +168,7 @@ def dfs(estado: str):
                 fronteira.put(node)
     return None
 
+
 def astar(heuristic: Callable[[str], Optional[list]], estado: str):
     """
     Recebe um estado (string), executa a busca A* com h(n) = heuristic.
@@ -217,6 +217,7 @@ def astar_hamming(estado: str):
     """
     return astar(heuristic_hamming, estado)
 
+
 def astar_manhattan(estado):
     """
     Recebe um estado (string), executa a busca A* com h(n) = soma das distâncias de Manhattan e
@@ -243,6 +244,7 @@ def heuristic_hamming(estado: str) -> int:
             hamming += 1
     return hamming
 
+
 def heuristic_manhattan(estado: str) -> int:
     """
     Retorna a distância Manhattan a partir do estado fornecido. A distância Manhattan entre dois vetores consiste na soma da distância de todos os eixos entre os dois veetores.
@@ -254,6 +256,7 @@ def heuristic_manhattan(estado: str) -> int:
         manhattan += abs(i % 3 - j % 3) + abs(i // 3 - j // 3)
 
     return manhattan
+
 
 # ------------------ Funções Auxiliares ---------------------#
 
