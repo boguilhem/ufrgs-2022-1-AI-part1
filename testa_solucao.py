@@ -65,20 +65,20 @@ class TestaSolucao(unittest.TestCase):
         # nao ha solucao a partir do estado 185423_67
         self.assertIsNone(solucao.astar_hamming("185423_67"))
 
-    # def test_astar_manhattan(self):
-    #     """
-    #     Testa o A* com dist. Manhattan em um estado com solução e outro sem solução
-    #     :return:
-    #     """
-    #     # no estado 2_3541687, a solucao otima tem 23 movimentos.
-    #     self.assertEqual(23, len(solucao.astar_manhattan("2_3541687")))
-    #     print(
-    #         "Atencao! O A* Manhattan passar nesse teste apenas significa que a lista retornada tem o "
-    #         "numero correto de elementos. Nao verificamos se as acoes levam para a solucao!"
-    #     )
+    def test_astar_manhattan(self):
+        """
+        Testa o A* com dist. Manhattan em um estado com solução e outro sem solução
+        :return:
+        """
+        # no estado 2_3541687, a solucao otima tem 23 movimentos.
+        self.assertEqual(23, len(solucao.astar_manhattan("2_3541687")))
+        print(
+            "Atencao! O A* Manhattan passar nesse teste apenas significa que a lista retornada tem o "
+            "numero correto de elementos. Nao verificamos se as acoes levam para a solucao!"
+        )
 
-    #     # nao ha solucao a partir do estado 185423_67
-    #     self.assertIsNone(solucao.astar_manhattan("185423_67"))
+        # nao ha solucao a partir do estado 185423_67
+        self.assertIsNone(solucao.astar_manhattan("185423_67"))
 
     def test_dfs(self):
         """

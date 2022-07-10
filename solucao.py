@@ -215,8 +215,31 @@ def astar_manhattan(estado):
     :param estado: str
     :return:
     """
-    # substituir a linha abaixo pelo seu codigo
-    raise NotImplementedError
+    # Se o estado inicial não for válido, ou se o estado inicial não houver solução:
+    if (not check_initial_state(estado)) or (not check_solvable(estado)):
+        return None
+
+    if check_final_state(estado):
+        return list()
+
+    unique = count()
+    nodo_inicial = Nodo(estado, None, None, 0)
+    explorados = set()
+    fronteira = PriorityQueue()
+    fronteira.put((0, next(unique), nodo_inicial))
+
+    while fronteira:
+        node_temp = fronteira.get()[2]
+        if check_final_state(node_temp.estado):
+            return find_path(node_temp)
+        if node_temp.estado not in explorados:
+            explorados.add(node_temp.estado)
+            candidatos = expande(node_temp)
+            for node in candidatos:
+                g = node.custo
+                h = heuristic_manhattan(node.estado)
+                fronteira.put((g + h, next(unique), node))
+    return None
 
 
 # ------------------ Heurísticas ----------------------------#
@@ -233,6 +256,17 @@ def heuristic_hamming(estado: str) -> int:
             hamming += 1
     return hamming
 
+def heuristic_manhattan(estado: str) -> int:
+    """
+    Retorna a distância Manhattan a partir do estado fornecido. A distância Manhattan entre dois vetores consiste na soma da distância de todos os eixos entre os dois veetores.
+    """
+    estado_final = "12345678_"
+    manhattan = 0
+    for i in range(len(estado)):
+        j = estado_final.index(estado[i])
+        manhattan += abs(i % 3 - j % 3) + abs(i // 3 - j // 3)
+
+    return manhattan
 
 # ------------------ Funções Auxiliares ---------------------#
 
