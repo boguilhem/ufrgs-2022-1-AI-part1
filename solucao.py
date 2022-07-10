@@ -1,4 +1,6 @@
 from queue import Queue, LifoQueue, PriorityQueue
+from itertools import count
+import time
 
 
 class Nodo:
@@ -134,7 +136,7 @@ def bfs(estado: str):
     return None
 
 
-def dfs(estado):
+def dfs(estado: str):
     """
     Recebe um estado (string), executa a busca em PROFUNDIDADE e
     retorna uma lista de ações que leva do
@@ -167,7 +169,7 @@ def dfs(estado):
     return None
 
 
-def astar_hamming(estado):
+def astar_hamming(estado: str):
     """
     Recebe um estado (string), executa a busca A* com h(n) = soma das distâncias de Hamming e
     retorna uma lista de ações que leva do
@@ -176,8 +178,32 @@ def astar_hamming(estado):
     :param estado: str
     :return:
     """
-    # substituir a linha abaixo pelo seu codigo
-    raise NotImplementedError
+
+    # Se o estado inicial não for válido, ou se o estado inicial não houver solução:
+    if (not check_initial_state(estado)) or (not check_solvable(estado)):
+        return None
+
+    if check_final_state(estado):
+        return list()
+
+    unique = count()
+    nodo_inicial = Nodo(estado, None, None, 0)
+    explorados = set()
+    fronteira = PriorityQueue()
+    fronteira.put((0, next(unique), nodo_inicial))
+
+    while fronteira:
+        node_temp = fronteira.get()[2]
+        if check_final_state(node_temp.estado):
+            return find_path(node_temp)
+        if node_temp.estado not in explorados:
+            explorados.add(node_temp.estado)
+            candidatos = expande(node_temp)
+            for node in candidatos:
+                g = node.custo
+                h = heuristic_hamming(node.estado)
+                fronteira.put((g + h, next(unique), node))
+    return None
 
 
 def astar_manhattan(estado):
@@ -191,6 +217,24 @@ def astar_manhattan(estado):
     """
     # substituir a linha abaixo pelo seu codigo
     raise NotImplementedError
+
+
+# ------------------ Heurísticas ----------------------------#
+
+
+def heuristic_hamming(estado: str) -> int:
+    """
+    Retorna a distância Hamming a partir do estado fornecido. A distância Hamming entre dois vetores consiste na soma da quantidade de elementos que divergem entre os dois vetores em cada posição.
+    """
+    estado_final = "12345678_"
+    hamming = 0
+    for i in range(len(estado)):
+        if estado[i] != estado_final[i]:
+            hamming += 1
+    return hamming
+
+
+# ------------------ Funções Auxiliares ---------------------#
 
 
 def check_initial_state(estado: str) -> bool:
