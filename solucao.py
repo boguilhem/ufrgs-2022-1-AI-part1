@@ -1,5 +1,6 @@
 from queue import Queue, LifoQueue, PriorityQueue
 from itertools import count
+from typing import Callable, Optional
 import time
 
 
@@ -168,6 +169,42 @@ def dfs(estado: str):
                 fronteira.put(node)
     return None
 
+def astar(heuristic: Callable[[str], Optional[list]], estado: str):
+    """
+    Recebe um estado (string), executa a busca A* com h(n) = heuristic.
+    retorna uma lista de ações que leva do
+    estado recebido até o objetivo ("12345678_").
+    Caso não haja solução a partir do estado recebido, retorna None
+    :param estado: str
+    :return:
+    """
+
+    # Se o estado inicial não for válido, ou se o estado inicial não houver solução:
+    if (not check_initial_state(estado)) or (not check_solvable(estado)):
+        return None
+
+    if check_final_state(estado):
+        return list()
+
+    unique = count()
+    nodo_inicial = Nodo(estado, None, None, 0)
+    explorados = set()
+    fronteira = PriorityQueue()
+    fronteira.put((0, next(unique), nodo_inicial))
+
+    while fronteira:
+        node_temp = fronteira.get()[2]
+        if check_final_state(node_temp.estado):
+            return find_path(node_temp)
+        if node_temp.estado not in explorados:
+            explorados.add(node_temp.estado)
+            candidatos = expande(node_temp)
+            for node in candidatos:
+                g = node.custo
+                h = heuristic(node.estado)
+                fronteira.put((g + h, next(unique), node))
+    return None
+
 
 def astar_hamming(estado: str):
     """
@@ -178,33 +215,7 @@ def astar_hamming(estado: str):
     :param estado: str
     :return:
     """
-
-    # Se o estado inicial não for válido, ou se o estado inicial não houver solução:
-    if (not check_initial_state(estado)) or (not check_solvable(estado)):
-        return None
-
-    if check_final_state(estado):
-        return list()
-
-    unique = count()
-    nodo_inicial = Nodo(estado, None, None, 0)
-    explorados = set()
-    fronteira = PriorityQueue()
-    fronteira.put((0, next(unique), nodo_inicial))
-
-    while fronteira:
-        node_temp = fronteira.get()[2]
-        if check_final_state(node_temp.estado):
-            return find_path(node_temp)
-        if node_temp.estado not in explorados:
-            explorados.add(node_temp.estado)
-            candidatos = expande(node_temp)
-            for node in candidatos:
-                g = node.custo
-                h = heuristic_hamming(node.estado)
-                fronteira.put((g + h, next(unique), node))
-    return None
-
+    return astar(heuristic_hamming, estado)
 
 def astar_manhattan(estado):
     """
@@ -215,31 +226,7 @@ def astar_manhattan(estado):
     :param estado: str
     :return:
     """
-    # Se o estado inicial não for válido, ou se o estado inicial não houver solução:
-    if (not check_initial_state(estado)) or (not check_solvable(estado)):
-        return None
-
-    if check_final_state(estado):
-        return list()
-
-    unique = count()
-    nodo_inicial = Nodo(estado, None, None, 0)
-    explorados = set()
-    fronteira = PriorityQueue()
-    fronteira.put((0, next(unique), nodo_inicial))
-
-    while fronteira:
-        node_temp = fronteira.get()[2]
-        if check_final_state(node_temp.estado):
-            return find_path(node_temp)
-        if node_temp.estado not in explorados:
-            explorados.add(node_temp.estado)
-            candidatos = expande(node_temp)
-            for node in candidatos:
-                g = node.custo
-                h = heuristic_manhattan(node.estado)
-                fronteira.put((g + h, next(unique), node))
-    return None
+    return astar(heuristic_manhattan, estado)
 
 
 # ------------------ Heurísticas ----------------------------#
